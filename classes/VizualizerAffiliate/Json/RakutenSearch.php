@@ -7,16 +7,21 @@ class VizualizerAffiliate_Json_RakutenSearch
     {
         $post = Vizualizer::request();
 
-        if(array_key_exists("app_id", $post) && !empty($post["app_id"]) && array_key_exists("keyword", $post) && !empty($post["keyword"])){
-            $url = VizualizerAffiliate::getRakutenApiBase($post["app_id"]);
-            $url .= "&operation=".VizualizerAffiliate::RAKUTEN_SEARCH;
-            $url .= "&version=".VizualizerAffiliate::RAKUTEN_VERSION;
+        $result = array();
+        if (!empty($post["app_id"]) && !empty($post["keyword"])) {
+            $url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20140222?applicationId=".$post["app_id"];
+            if (!empty($post["aff_id"])) {
+                $url .= "&affiliateId=".$post["aff_id"];
+            }
+            $url .= "&format=json";
             $url .= "&keyword=".urlencode($post["keyword"]);
             $url .= "&sort=".urlencode("-reviewAverage");
-
-            $result = file_get_contents($url);
-            print_r($result);
-            exit;
+            $list = json_decode(file_get_contents($url));
+            foreach ($list->Items as $item) {
+                $result[] = $item->Item;
+            }
         }
+
+        return $result;
     }
 }

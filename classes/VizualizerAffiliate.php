@@ -38,7 +38,7 @@ class VizualizerAffiliate
     const RAKUTEN_SEARCH = "ItemSearch";
 
     final public static function getRakutenApiBase($appId){
-        return "http://api.rakuten.co.jp/rws/3.0/rest?developerId=".$appId;
+        return "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20140222?developerId=".$appId;
     }
 
 
