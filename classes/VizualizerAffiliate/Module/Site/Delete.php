@@ -22,37 +22,17 @@
  * @version   1.0.0
  */
 
-// プラグインの初期化
-VizualizerAffiliate::initialize();
-
-
 /**
- * プラグインの設定用クラス
+ * サイトのデータを削除する。
  *
  * @package VizualizerAffiliate
  * @author Naohisa Minagawa <info@vizualizer.jp>
  */
-class VizualizerAffiliate
+class VizualizerAffiliate_Module_Site_Delete extends Vizualizer_Plugin_Module_Delete
 {
-    /**
-     * プラグインパッケージの配置されているベースパスを取得します。
-     * @return プラグインパッケージのベースパス
-     */
-    final public static function path(){
-        return realpath(dirname(__FILE__)."/../");
-    }
 
-    /**
-     * プラグインの初期化処理を行うメソッドです。
-     */
-    final public static function initialize()
+    function execute($params)
     {
-    }
-
-    /**
-     * データベースインストールの処理を行うメソッド
-     */
-    final public static function install()
-    {
+        $this->executeImpl("Affiliate", "Site", "site_id");
     }
 }

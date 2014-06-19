@@ -22,37 +22,21 @@
  * @version   1.0.0
  */
 
-// プラグインの初期化
-VizualizerAffiliate::initialize();
-
-
 /**
- * プラグインの設定用クラス
+ * 広告商品のリストをページング付きで取得する。
  *
  * @package VizualizerAffiliate
  * @author Naohisa Minagawa <info@vizualizer.jp>
  */
-class VizualizerAffiliate
+class VizualizerAffiliate_Module_Product_Page extends Vizualizer_Plugin_Module_Page
 {
-    /**
-     * プラグインパッケージの配置されているベースパスを取得します。
-     * @return プラグインパッケージのベースパス
-     */
-    final public static function path(){
-        return realpath(dirname(__FILE__)."/../");
-    }
 
-    /**
-     * プラグインの初期化処理を行うメソッドです。
-     */
-    final public static function initialize()
+    function execute($params)
     {
-    }
-
-    /**
-     * データベースインストールの処理を行うメソッド
-     */
-    final public static function install()
-    {
+        $post = Vizualizer::request();
+        $search = $post["search"];
+        $post->set("search", array("advertise_id" => $post["advertise_id"]));
+        $this->executeImpl($params, "Affiliate", "AdvertiseProduct", $params->get("result", "products"));
+        $post->set("search", $search);
     }
 }

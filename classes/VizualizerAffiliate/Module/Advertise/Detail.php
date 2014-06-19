@@ -22,37 +22,18 @@
  * @version   1.0.0
  */
 
-// プラグインの初期化
-VizualizerAffiliate::initialize();
-
-
 /**
- * プラグインの設定用クラス
+ * 広告を取得する。
  *
  * @package VizualizerAffiliate
  * @author Naohisa Minagawa <info@vizualizer.jp>
  */
-class VizualizerAffiliate
+class VizualizerAffiliate_Module_Advertise_Detail extends Vizualizer_Plugin_Module_Detail
 {
-    /**
-     * プラグインパッケージの配置されているベースパスを取得します。
-     * @return プラグインパッケージのベースパス
-     */
-    final public static function path(){
-        return realpath(dirname(__FILE__)."/../");
-    }
 
-    /**
-     * プラグインの初期化処理を行うメソッドです。
-     */
-    final public static function initialize()
+    function execute($params)
     {
-    }
-
-    /**
-     * データベースインストールの処理を行うメソッド
-     */
-    final public static function install()
-    {
+        $post = Vizualizer::request();
+        $this->executeImpl("Affiliate", "Advertise", $post["advertise_id"], $params->get("result", "advertise"));
     }
 }
