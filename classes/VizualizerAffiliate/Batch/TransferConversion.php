@@ -79,6 +79,7 @@ class VizualizerAffiliate_Batch_TransferConversion extends Vizualizer_Plugin_Bat
                 $conversion->total = $conversionLog->total;
                 $conversion->conversion_time = $conversionLog->create_time;
                 $conversion->save();
+                Vizualizer_Logger::info("Created conversion : ".$conversion->tracking_code);
 
                 $conversionLog->log_status = 1;
                 $conversionLog->save();
