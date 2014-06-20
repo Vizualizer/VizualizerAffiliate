@@ -38,21 +38,38 @@ class VizualizerAffiliate_Module_Conversion_List extends Vizualizer_Plugin_Modul
         if (class_exists("VizualizerAdmin")) {
             $attr = Vizualizer::attr();
             $operator = $attr[VizualizerAdmin::KEY];
-            if(!empty($operator) && $operator->operator_id > 0){
+            if (!empty($operator) && $operator->operator_id > 0) {
                 $loader = new Vizualizer_Plugin("affiliate");
                 $advertise = $loader->loadModel("Advertise");
                 $advertises = $advertise->findAllByCompanyId($operator->company_id);
                 $advertiseIds = array("0");
-                foreach($advertises as $advertise){
+                foreach ($advertises as $advertise) {
                     $advertiseIds[] = $advertise->advertise_id;
                 }
                 $search["in:advertise_id"] = $advertiseIds;
             }
         }
+        if (class_exists("VizualizerMember")) {
+            $customer = $attr[VizualizerMember::KEY];
+            if (!empty($customer) && $customer->customer_id > 0) {
+                // カスタマーとしてログインしているときは、出力する広告を制限する。
+                $loader = new Vizualizer_Plugin("affiliate");
+                $site = $loader->loadModel("Site");
+                $sites = $site->findAllBy(array("customer_id" => $customer->customer_id));
+                $siteIds = array("0");
+                foreach ($sites as $site) {
+                    $siteIds[] = $site->site_id;
+                }
+                $post = Vizualizer::request();
+                $search = $post["search"];
+                $search["in:site_id"] = $siteIds;
+                $post->set("search", $search);
+            }
+        }
         $search["in:conversion_status"] = array("1", "2", "3");
-        if(isset($post["site_id"])){
+        if (isset($post["site_id"])) {
             $search["site_id"] = $post["site_id"];
-        }else{
+        } else {
             unset($search["site_id"]);
         }
         $post->set("search", $search);

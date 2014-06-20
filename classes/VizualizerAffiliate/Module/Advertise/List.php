@@ -36,11 +36,28 @@ class VizualizerAffiliate_Module_Advertise_List extends Vizualizer_Plugin_Module
         if (class_exists("VizualizerAdmin")) {
             $attr = Vizualizer::attr();
             $operator = $attr[VizualizerAdmin::KEY];
-            if(!empty($operator) && $operator->operator_id > 0){
+            if (!empty($operator) && $operator->operator_id > 0) {
                 // オペレータとしてログインしているときは、出力する広告を制限する。
                 $post = Vizualizer::request();
                 $search = $post["search"];
                 $search["company_id"] = $operator->company_id;
+                $post->set("search", $search);
+            }
+        }
+        if (class_exists("VizualizerMember")) {
+            $customer = $attr[VizualizerMember::KEY];
+            if (!empty($customer) && $customer->customer_id > 0) {
+                // カスタマーとしてログインしているときは、出力する広告を制限する。
+                $loader = new Vizualizer_Plugin("affiliate");
+                $contract = $loader->loadModel("Contract");
+                $contracts = $contract->findAllBy(array("customer_id" => $customer->customer_id));
+                $companyIds = array("0");
+                foreach ($contracts as $contract) {
+                    $companyIds[] = $contract->company_id;
+                }
+                $post = Vizualizer::request();
+                $search = $post["search"];
+                $search["in:company_id"] = $companyIds;
                 $post->set("search", $search);
             }
         }

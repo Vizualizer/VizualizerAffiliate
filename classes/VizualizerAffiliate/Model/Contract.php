@@ -77,7 +77,7 @@ class VizualizerAffiliate_Model_Contract extends Vizualizer_Plugin_Model
      *
      * @param $customer_id 顧客ID
      */
-    public function findAllByCompanyId($customer_id, $sort = "", $reverse = false)
+    public function findAllByCustomerId($customer_id, $sort = "", $reverse = false)
     {
         return $this->findAllBy(array("customer_id" => $customer_id), $sort, $reverse);
     }
