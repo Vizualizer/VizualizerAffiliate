@@ -88,7 +88,7 @@ class VizualizerAffiliate_Batch_MigrateConversion extends Vizualizer_Plugin_Batc
                     $conversion->conversion_status = 4;
                 }
                 $conversion->save();
-                Vizualizer_Logger::info("Migrated conversion : ".$conversion->tracking_code);
+                Vizualizer_Logger::writeInfo("Migrated conversion : ".$conversion->tracking_code);
 
                 Vizualizer_Database_Factory::commit($connection);
             } catch (Exception $e) {
