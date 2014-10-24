@@ -77,7 +77,7 @@ class VizualizerAffiliate_Batch_MigrateConversion extends Vizualizer_Plugin_Batc
                     $conversion->advertise_id = $entranceLog->advertise_id;
                     $conversion->product_id = $entranceLog->product_id;
                     $advertise = $entranceLog->advertise();
-                    $conversion->reward = floor($conversion->total * $advertise->reward_rate / 100) + $advertise->reward_price;
+                    $conversion->reward = ceil($conversion->total * $advertise->reward_rate / 100) + $advertise->reward_price;
                     $chargeRate = Vizualizer_Configure::get("affiliate_conversion_charge_rate") / 100;
                     if($chargeRate > 0){
                         $conversion->charge = ceil($conversion->reward * $chargeRate / (1 - $chargeRate));
