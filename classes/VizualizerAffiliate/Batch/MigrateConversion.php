@@ -48,7 +48,7 @@ class VizualizerAffiliate_Batch_MigrateConversion extends Vizualizer_Plugin_Batc
 
     public function getDaemonInterval()
     {
-        return 600;
+        return 120;
     }
 
     /**

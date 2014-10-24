@@ -48,7 +48,7 @@ class VizualizerAffiliate_Batch_AutoContract extends Vizualizer_Plugin_Batch
 
     public function getDaemonInterval()
     {
-        return 600;
+        return 120;
     }
 
     /**
