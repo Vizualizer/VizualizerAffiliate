@@ -34,6 +34,7 @@ class VizualizerAffiliate_Module_Site_List extends Vizualizer_Plugin_Module_List
     function execute($params)
     {
         if($params->get("show_all", "0") == "0"){
+            $post = Vizualizer::request();
             $customer = Vizualizer_Session::get(VizualizerMember::SESSION_KEY);
             $post->set("customer_id", $customer["customer_id"]);
         }
