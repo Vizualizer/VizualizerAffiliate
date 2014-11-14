@@ -35,8 +35,19 @@ class VizualizerAffiliate_Module_Conversion_Summery extends Vizualizer_Plugin_Mo
     {
         $post = Vizualizer::request();
         $loader = new Vizualizer_Plugin("affiliate");
-        $conversions = $loader->loadTable("Conversions");
 
+        // サイトIDのリストを
+        if($params->get("show_all", "0") == "0"){
+            $customer = Vizualizer_Session::get(VizualizerMember::SESSION_KEY);
+            $siteIds = array(0);
+            $site = $loader->loadModel("Site");
+            $sites = $site->findAllBy(array("customer_id" => $customer["customer_id"]));
+            foreach($sites as $site){
+                $siteIds[] = $site->site_id;
+            }
+        }
+
+        $conversions = $loader->loadTable("Conversions");
         // 集計用のクエリを発行
         $select = new Vizualizer_Query_Select($conversions);
         $select->addColumn("SUBSTRING(".$conversions->conversion_time.", 1, 7) AS month");
@@ -46,6 +57,9 @@ class VizualizerAffiliate_Module_Conversion_Summery extends Vizualizer_Plugin_Mo
         $select->addColumn("SUM(" . $conversions->charge . ") AS charge");
         $select->addColumn("SUM(" . $conversions->reward . " + " . $conversions->charge . ") AS bill");
         $select->where($conversions->conversion_status." = '2'")->group("SUBSTRING(".$conversions->conversion_time.", 1, 7)");
+        if(!empty($siteIds)){
+            $select->where($conversions->site_id." IN (".implode(", ", $siteIds).")");
+        }
         $result = $select->execute();
 
         $summery = array();

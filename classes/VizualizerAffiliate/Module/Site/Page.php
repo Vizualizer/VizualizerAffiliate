@@ -33,6 +33,10 @@ class VizualizerAffiliate_Module_Site_Page extends Vizualizer_Plugin_Module_Page
 
     function execute($params)
     {
+        if($params->get("show_all", "0") == "0"){
+            $customer = Vizualizer_Session::get(VizualizerMember::SESSION_KEY);
+            $post->set("customer_id", $customer["customer_id"]);
+        }
         $this->executeImpl($params, "Affiliate", "Site", $params->get("result", "sites"));
     }
 }
