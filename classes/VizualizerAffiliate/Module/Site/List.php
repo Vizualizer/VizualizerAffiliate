@@ -33,10 +33,15 @@ class VizualizerAffiliate_Module_Site_List extends Vizualizer_Plugin_Module_List
 
     function execute($params)
     {
-        if($params->get("show_all", "0") == "0"){
-            $post = Vizualizer::request();
-            $customer = Vizualizer_Session::get(VizualizerMember::SESSION_KEY);
-            $post->set("customer_id", $customer["customer_id"]);
+        if (class_exists("VizualizerMember")) {
+            $customer = $attr[VizualizerMember::KEY];
+            if (!empty($customer) && $customer->customer_id > 0) {
+                // カスタマーとしてログインしているときは、出力するサイトを制限する。
+                $post = Vizualizer::request();
+                $search = $post["search"];
+                $search["customer_id"] = $customer->customer_id;
+                $post->set("search", $search);
+            }
         }
         $this->executeImpl($params, "Affiliate", "Site", $params->get("result", "sites"));
     }

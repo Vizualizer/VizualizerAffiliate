@@ -36,14 +36,17 @@ class VizualizerAffiliate_Module_Conversion_Summery extends Vizualizer_Plugin_Mo
         $post = Vizualizer::request();
         $loader = new Vizualizer_Plugin("affiliate");
 
-        // サイトIDのリストを
-        if($params->get("show_all", "0") == "0"){
-            $customer = Vizualizer_Session::get(VizualizerMember::SESSION_KEY);
-            $siteIds = array(0);
-            $site = $loader->loadModel("Site");
-            $sites = $site->findAllBy(array("customer_id" => $customer["customer_id"]));
-            foreach($sites as $site){
-                $siteIds[] = $site->site_id;
+        if (class_exists("VizualizerMember")) {
+            $customer = $attr[VizualizerMember::KEY];
+            if (!empty($customer) && $customer->customer_id > 0) {
+                // カスタマーとしてログインしているときは、出力する広告を制限する。
+                $loader = new Vizualizer_Plugin("affiliate");
+                $site = $loader->loadModel("Site");
+                $sites = $site->findAllBy(array("customer_id" => $customer->customer_id));
+                $siteIds = array("0");
+                foreach ($sites as $site) {
+                    $siteIds[] = $site->site_id;
+                }
             }
         }
 
