@@ -33,8 +33,8 @@ class VizualizerAffiliate_Module_Advertise_List extends Vizualizer_Plugin_Module
 
     function execute($params)
     {
+        $attr = Vizualizer::attr();
         if (class_exists("VizualizerAdmin")) {
-            $attr = Vizualizer::attr();
             $operator = $attr[VizualizerAdmin::KEY];
             if (!empty($operator) && $operator->operator_id > 0) {
                 // オペレータとしてログインしているときは、出力する広告を制限する。

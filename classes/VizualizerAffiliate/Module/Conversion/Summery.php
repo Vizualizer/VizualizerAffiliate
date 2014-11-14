@@ -33,6 +33,7 @@ class VizualizerAffiliate_Module_Conversion_Summery extends Vizualizer_Plugin_Mo
 
     function execute($params)
     {
+        $attr = Vizualizer::attr();
         $post = Vizualizer::request();
         $loader = new Vizualizer_Plugin("affiliate");
 

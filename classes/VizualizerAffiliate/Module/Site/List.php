@@ -33,6 +33,7 @@ class VizualizerAffiliate_Module_Site_List extends Vizualizer_Plugin_Module_List
 
     function execute($params)
     {
+        $attr = Vizualizer::attr();
         if (class_exists("VizualizerMember")) {
             $customer = $attr[VizualizerMember::KEY];
             if (!empty($customer) && $customer->customer_id > 0) {

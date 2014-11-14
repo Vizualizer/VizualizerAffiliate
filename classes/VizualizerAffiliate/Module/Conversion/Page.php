@@ -33,10 +33,10 @@ class VizualizerAffiliate_Module_Conversion_Page extends Vizualizer_Plugin_Modul
 
     function execute($params)
     {
+        $attr = Vizualizer::attr();
         $post = Vizualizer::request();
         $search = $post["search"];
         if (class_exists("VizualizerAdmin")) {
-            $attr = Vizualizer::attr();
             $operator = $attr[VizualizerAdmin::KEY];
             if (!empty($operator) && $operator->operator_id > 0) {
                 $loader = new Vizualizer_Plugin("affiliate");
