@@ -103,9 +103,9 @@ class VizualizerAffiliate_Module_Tracking_Start extends Vizualizer_Plugin_Module
 
         // LPにリダイレクト
         if($product == null){
-            $this->redirect($advertise->advertise_url);
+            $this->redirectMeta($advertise->advertise_url);
         }else{
-            $this->redirect($product->product_url);
+            $this->redirectMeta($product->product_url);
         }
     }
 }
